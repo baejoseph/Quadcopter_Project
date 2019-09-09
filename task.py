@@ -76,7 +76,9 @@ class Hover():
 
     def get_reward(self):
         """Uses current pose of sim to return reward."""
-        reward = 1.-.3*(abs(self.sim.pose[:3] - self.target_pos)).sum()
+        A = self.target_pos
+        B = self.sim.pose[:3]
+        reward = np.maximum(-50.0,20.-.3*(abs(A[:2] - B[:2])).sum()-0.7*abs(A[2] - B[2]))
         return reward
 
     def step(self, rotor_speeds):
